@@ -98,7 +98,7 @@
 	var ReactDOM = __webpack_require__(165);
 	var TodoApp = __webpack_require__(166);
 	// App css
-	__webpack_require__(169);
+	__webpack_require__(170);
 	$(document).foundation();
 	ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('app'));
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
@@ -19813,8 +19813,11 @@
 
 	'use strict';
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var React = __webpack_require__(8);
 	var TodoList = __webpack_require__(167);
+	var AddTodo = __webpack_require__(169);
 
 	var TodoApp = React.createClass({
 	  displayName: 'TodoApp',
@@ -19833,13 +19836,19 @@
 	      }]
 	    };
 	  },
+	  handleAddTodo: function handleAddTodo(todo) {
+	    // this func handles the add todo event.
+	    var newTodo = { id: 5, text: todo };
+	    this.setState(_extends({}, this.state.todos, { newTodo: newTodo }));
+	  },
 	  render: function render() {
 	    var todos = this.state.todos;
 
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(TodoList, { todos: todos })
+	      React.createElement(TodoList, { todos: todos }),
+	      React.createElement(AddTodo, { onAddTodo: this.handleAddTodo })
 	    );
 	  }
 	});
@@ -19907,13 +19916,59 @@
 /* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var AddTodo = React.createClass({
+	  displayName: 'AddTodo',
+
+	  propTypes: {
+	    onAddTodo: React.PropTypes.func.isRequired
+	  },
+	  onAddTodo: function onAddTodo(e) {
+	    // call the passed down props.addtodo()
+	    e.preventDefault();
+	    var todo = this.refs.todo.value;
+	    if (todo.length > 0) {
+	      this.refs.todo.value = '';
+	      this.props.onAddTodo(todo);
+	      console.log(e);
+	    } else {
+	      this.refs.todo.focus();
+	    }
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.onAddTodo },
+	        React.createElement('input', { type: 'text', ref: 'todo', placeholder: 'What do you want to do ?' }),
+	        React.createElement(
+	          'button',
+	          { className: 'button expanded', type: 'submit' },
+	          ' Add Todo'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = AddTodo;
+
+/***/ }),
+/* 170 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(170);
+	var content = __webpack_require__(171);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(172)(content, {});
+	var update = __webpack_require__(173)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -19930,10 +19985,10 @@
 	}
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(171)();
+	exports = module.exports = __webpack_require__(172)();
 	// imports
 
 
@@ -19944,7 +19999,7 @@
 
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports) {
 
 	/*
@@ -20000,7 +20055,7 @@
 
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
