@@ -11,10 +11,10 @@ describe('AddTodo',() => {
   });
   it('should fire onAddTodo function on form submit',() => {
     let spy = expect.createSpy();
-        let countdownForm = TestUtils.renderIntoDocument(<AddTodo onAddTodo={spy}/>);
+        let addtodo = TestUtils.renderIntoDocument(<AddTodo onAddTodo={spy}/>);
         let todo = 'Clean the House';
-        countdownForm.refs.todo.value = todo;
-        TestUtils.Simulate.submit(ReactDOM.findDOMNode(countdownForm).querySelector('form')[0]);
+        addtodo.refs.todo.value = todo;
+        TestUtils.Simulate.submit(ReactDOM.findDOMNode(addtodo).querySelector('form')[0]);
         expect(spy).toHaveBeenCalledWith(todo);
   });
   it('should not fire onAddTodo prop when invalid input',() => {
