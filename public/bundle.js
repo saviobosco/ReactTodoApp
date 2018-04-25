@@ -98,7 +98,7 @@
 	var ReactDOM = __webpack_require__(165);
 	var TodoApp = __webpack_require__(166);
 	// App css
-	__webpack_require__(170);
+	__webpack_require__(171);
 	$(document).foundation();
 	ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('app'));
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
@@ -19813,17 +19813,17 @@
 
 	'use strict';
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	var React = __webpack_require__(8);
 	var TodoList = __webpack_require__(167);
 	var AddTodo = __webpack_require__(169);
-
+	var TodoSearch = __webpack_require__(170);
 	var TodoApp = React.createClass({
 	  displayName: 'TodoApp',
 
 	  getInitialState: function getInitialState() {
 	    return {
+	      searchText: '',
+	      showCompleted: false,
 	      todos: [{
 	        id: 1,
 	        text: "Walk the dog"
@@ -19836,10 +19836,12 @@
 	      }]
 	    };
 	  },
+	  handleSearch: function handleSearch(showCompleted, searchText) {
+	    this.setState({ showCompleted: showCompleted, searchText: searchText.toLowerCase() });
+	  },
 	  handleAddTodo: function handleAddTodo(todo) {
 	    // this func handles the add todo event.
-	    var newTodo = { id: 5, text: todo };
-	    this.setState(_extends({}, this.state.todos, { newTodo: newTodo }));
+
 	  },
 	  render: function render() {
 	    var todos = this.state.todos;
@@ -19847,6 +19849,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(TodoSearch, { onSearch: this.handleSearch }),
 	      React.createElement(TodoList, { todos: todos }),
 	      React.createElement(AddTodo, { onAddTodo: this.handleAddTodo })
 	    );
@@ -19933,7 +19936,6 @@
 	    if (todo.length > 0) {
 	      this.refs.todo.value = '';
 	      this.props.onAddTodo(todo);
-	      console.log(e);
 	    } else {
 	      this.refs.todo.focus();
 	    }
@@ -19962,13 +19964,49 @@
 /* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	var React = __webpack_require__(8);
+
+	var TodoSearch = React.createClass({
+	  displayName: "TodoSearch",
+
+	  handleSearch: function handleSearch() {
+	    var showCompleted = this.refs.showCompleted.checked;
+	    var searchText = this.refs.searchText.value;
+	    this.props.onSearch(showCompleted, searchText);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "div",
+	        null,
+	        React.createElement("input", { type: "search", ref: "searchText", placeholder: "Search Todo", onChange: this.handleSearch }),
+	        React.createElement(
+	          "label",
+	          null,
+	          React.createElement("input", { type: "checkbox", ref: "showCompleted", onChange: this.handleSearch }),
+	          "show completed todos"
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = TodoSearch;
+
+/***/ }),
+/* 171 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(171);
+	var content = __webpack_require__(172);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(173)(content, {});
+	var update = __webpack_require__(174)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -19985,10 +20023,10 @@
 	}
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(172)();
+	exports = module.exports = __webpack_require__(173)();
 	// imports
 
 
@@ -19999,7 +20037,7 @@
 
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports) {
 
 	/*
@@ -20055,7 +20093,7 @@
 
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
