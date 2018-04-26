@@ -98,7 +98,7 @@
 	var ReactDOM = __webpack_require__(165);
 	var TodoApp = __webpack_require__(166);
 	// App css
-	__webpack_require__(176);
+	__webpack_require__(177);
 	$(document).foundation();
 	ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('app'));
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
@@ -19816,11 +19816,12 @@
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	var uuid = __webpack_require__(167);
-
 	var React = __webpack_require__(8);
-	var TodoList = __webpack_require__(172);
-	var AddTodo = __webpack_require__(174);
-	var TodoSearch = __webpack_require__(175);
+
+	var TodoApi = __webpack_require__(172);
+	var TodoList = __webpack_require__(173);
+	var AddTodo = __webpack_require__(175);
+	var TodoSearch = __webpack_require__(176);
 	var TodoApp = React.createClass({
 	  displayName: 'TodoApp',
 
@@ -19828,20 +19829,11 @@
 	    return {
 	      searchText: '',
 	      showCompleted: false,
-	      todos: [{
-	        id: uuid(),
-	        text: "Walk the dog",
-	        completed: true
-	      }, {
-	        id: uuid(),
-	        text: "Clean the dog",
-	        completed: false
-	      }, {
-	        id: uuid(),
-	        text: "Clean the dog",
-	        completed: false
-	      }]
+	      todos: TodoApi.getTodos()
 	    };
+	  },
+	  componentDidUpdate: function componentDidUpdate() {
+	    TodoApi.setTodos(this.state.todos);
 	  },
 	  handleSearch: function handleSearch(showCompleted, searchText) {
 	    this.setState({ showCompleted: showCompleted, searchText: searchText.toLowerCase() });
@@ -20116,10 +20108,37 @@
 
 	'use strict';
 
+	var $ = __webpack_require__(7);
+
+	module.exports = {
+	  setTodos: function setTodos(todos) {
+	    if ($.isArray(todos)) {
+	      localStorage.setItem('todos', JSON.stringify(todos));
+	      return todos;
+	    } //
+	  },
+	  getTodos: function getTodos() {
+	    var stringTodos = localStorage.getItem('todos');
+	    var todos = [];
+	    try {
+	      todos = JSON.parse(stringTodos);
+	    } catch (e) {
+	      // execute this if any error
+	    }
+	    return $.isArray(todos) ? todos : [];
+	  }
+	};
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var React = __webpack_require__(8);
-	var Todo = __webpack_require__(173);
+	var Todo = __webpack_require__(174);
 
 	var TodoList = React.createClass({
 	  displayName: 'TodoList',
@@ -20144,7 +20163,7 @@
 	module.exports = TodoList;
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -20176,7 +20195,7 @@
 	module.exports = Todo;
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20221,7 +20240,7 @@
 	module.exports = AddTodo;
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -20257,16 +20276,16 @@
 	module.exports = TodoSearch;
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(177);
+	var content = __webpack_require__(178);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(179)(content, {});
+	var update = __webpack_require__(180)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20283,10 +20302,10 @@
 	}
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(178)();
+	exports = module.exports = __webpack_require__(179)();
 	// imports
 
 
@@ -20297,7 +20316,7 @@
 
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports) {
 
 	/*
@@ -20353,7 +20372,7 @@
 
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
